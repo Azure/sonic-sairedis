@@ -645,7 +645,7 @@ sai_status_t VendorSai::bulkCreate(
             ptr = m_apis.lag_api->create_lag_members;
             break;
 
-        case SAI_OBJECT_TYPE_NEXT_HOP_GROUP_MEMBER:
+        case SAI_OBJECT_TYPE_NEXT_HOP_GROUP:
             ptr = m_apis.next_hop_group_api->create_next_hop_group_members;
             break;
 
@@ -662,7 +662,7 @@ sai_status_t VendorSai::bulkCreate(
             break;
 
         default:
-            SWSS_LOG_ERROR("not implemented %s, FIXME", sai_serialize_object_type(object_type).c_str());
+            SWSS_LOG_ERROR("not implemented, FIXME");
             return SAI_STATUS_NOT_IMPLEMENTED;
     }
 
@@ -704,7 +704,7 @@ sai_status_t VendorSai::bulkRemove(
             ptr = m_apis.lag_api->remove_lag_members;
             break;
 
-        case SAI_OBJECT_TYPE_NEXT_HOP_GROUP_MEMBER:
+        case SAI_OBJECT_TYPE_NEXT_HOP_GROUP:
             ptr = m_apis.next_hop_group_api->remove_next_hop_group_members;
             break;
 
@@ -721,7 +721,7 @@ sai_status_t VendorSai::bulkRemove(
             break;
 
         default:
-            SWSS_LOG_ERROR("not implemented %s, FIXME", sai_serialize_object_type(object_type).c_str());
+            SWSS_LOG_ERROR("not implemented, FIXME");
             return SAI_STATUS_NOT_IMPLEMENTED;
     }
 
