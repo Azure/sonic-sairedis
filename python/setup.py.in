@@ -3,7 +3,8 @@ from distutils.command.build_ext import build_ext
 from distutils.sysconfig import customize_compiler
 import os
 
-os.environ["CC"] = "g++"
+os.environ["CC"] = os.getenv("CROSS_COMPILE", "") + "g++"
+os.environ["CXX"] = os.getenv("CROSS_COMPILE", "") + "g++"
 
 swss_common_inc_dir = '@SWSS_COMMON_INC_DIR@'
 
