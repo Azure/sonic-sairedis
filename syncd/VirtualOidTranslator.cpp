@@ -135,7 +135,7 @@ sai_object_id_t VirtualOidTranslator::translateRidToVid(
 
     vid = m_virtualObjectIdManager->allocateNewObjectId(object_type, switchVid); // TODO to std::function or separate object
 
-    SWSS_LOG_DEBUG("translated RID %s to VID %s",
+    SWSS_LOG_INFO("translated RID %s to VID %s",
             sai_serialize_object_id(rid).c_str(),
             sai_serialize_object_id(vid).c_str());
 

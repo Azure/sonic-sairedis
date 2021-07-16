@@ -917,6 +917,10 @@ sai_status_t Syncd::processBulkCreateEntry(
                 entries[it].vr_id = m_translator->translateVidToRid(entries[it].vr_id);
             }
 
+            static PerformanceIntervalTimer timer("Syncd::processBulkCreateEntry(route_entry) CREATE");
+
+            timer.start();
+
             status = m_vendorSai->bulkCreate(
                     object_count,
                     entries.data(),
@@ -925,6 +929,9 @@ sai_status_t Syncd::processBulkCreateEntry(
                     mode,
                     statuses.data());
 
+            timer.stop();
+
+            timer.inc(object_count);
         }
         break;
 
@@ -1444,7 +1451,8 @@ sai_status_t Syncd::processBulkOidCreate(
 
     if (status == SAI_STATUS_NOT_IMPLEMENTED || status == SAI_STATUS_NOT_SUPPORTED)
     {
-        SWSS_LOG_ERROR("bulkCreate api is not implemented or not supported, object_type = %u", objectType);
+        SWSS_LOG_ERROR("bulkCreate api is not implemented or not supported, object_type = %s",
+                sai_serialize_object_type(objectType).c_str());
         return status;
     }
 
@@ -1501,7 +1509,8 @@ sai_status_t Syncd::processBulkOidRemove(
 
     if (status == SAI_STATUS_NOT_IMPLEMENTED || status == SAI_STATUS_NOT_SUPPORTED)
     {
-        SWSS_LOG_ERROR("bulkRemove api is not implemented or not supported, object_type = %u", objectType);
+        SWSS_LOG_ERROR("bulkRemove api is not implemented or not supported, object_type = %s",
+                sai_serialize_object_type(objectType).c_str());
         return status;
     }
 
@@ -4307,7 +4316,7 @@ static void timerWatchdogCallback(
 {
     SWSS_LOG_ENTER();
 
-    SWSS_LOG_ERROR("main loop execution exceeded %ld us", span);
+    SWSS_LOG_ERROR("main loop execution exceeded %ld ms", span/1000);
 }
 
 void Syncd::run()
